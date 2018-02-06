@@ -21,6 +21,13 @@ parser.addArgument(
     help: 'File extensions, seperated by comma, eg: js,jsx'
   }
 );
+parser.addArgument(
+    [ '--prefix' ],
+    {
+      help: 'Prefix for all resource paths'
+    }
+  );
+
 
 const args = parser.parseArgs();
 
@@ -47,7 +54,7 @@ const allFileSync = function(dir, filter, filelist) {
     return filelist;
 };
 
-const processFile = (srcFile) => {
+const processFile = (srcFile, prefix) => {
     const fileContent = fs.readFileSync(srcFile, 'utf8');
     const re = RegExp(/src=\"([^\"]+)\"/g);
     let m;
@@ -58,9 +65,12 @@ const processFile = (srcFile) => {
         if (!m) break;
         
         const match = m[0];
-        const filePath = m[1];
+        let filePath = m[1];
+        if(prefix){
+            filePath = p.join(prefix, filePath);
+        }
         const varName = getVarName(filePath);
-        imports.push(`import ${varName} from 'assets/${filePath}';`);
+        imports.push(`import ${varName} from '${filePath}';`);
         fileContentAfter = fileContentAfter.replace(new RegExp(match , 'g'), `src={${varName}}`);
     } while (1);
 
@@ -70,17 +80,18 @@ const processFile = (srcFile) => {
 
     fs.writeFileSync(srcFile, fileContentAfter);
 
-    console.log(`Process file ${srcFile} successfully.`)
+    console.log(`Process file ${srcFile} successfully.`);
 }
 
 
 const src = args.src;
+const prefix = args.prefix || '';
 const ext = (args.ext || "js").replace(/,/g, "|");
 const filter = new RegExp(`\.(${ext})$`, "i");
 
 if(fs.statSync(src).isDirectory()){
     const files = allFileSync(src, filter);
-    files.forEach(processFile);
+    files.forEach((item) => processFile(item, prefix));
 } else {
-    processFile(src);
+    processFile(src, prefix);
 }
