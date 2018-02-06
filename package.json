@@ -27,7 +27,7 @@
   },
   "preferGlobal": "true",
   "bin": {
-    "path-to-import": "./index.js",
-    "p2i": "./index.js"
+    "path-to-import": "./bin/p2i",
+    "p2i": "./bin/p2i"
   }
 }
