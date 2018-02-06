@@ -3,9 +3,9 @@ const p = require('path');
 
 const ArgumentParser = require('argparse').ArgumentParser;
 const parser = new ArgumentParser({
-  version: '0.0.1',
-  addHelp:true,
-  description: 'Argparse example'
+  version: '1.0.0',
+  addHelp: true,
+  description: 'Example usage: path-to-import --src=./src --ext=js,jsx'
 });
 
 parser.addArgument(
@@ -18,12 +18,11 @@ parser.addArgument(
 parser.addArgument(
   [ '--ext' ],
   {
-    help: 'File extension, eg: js,jsx'
+    help: 'File extensions, seperated by comma, eg: js,jsx'
   }
 );
 
 const args = parser.parseArgs();
-// console.dir(args);
 
 function camelize(str) {
     return str.replace(/[^a-z0-9]/g, "_").replace(/_[a-z]/g, c => c[1].toUpperCase()).replace(/_/g, '');
@@ -71,7 +70,7 @@ const processFile = (srcFile) => {
 
     fs.writeFileSync(srcFile, fileContentAfter);
 
-    console.log(`Success! Process file ${srcFile} successfully.`)
+    console.log(`Process file ${srcFile} successfully.`)
 }
 
 

@@ -1,13 +1,26 @@
 {
   "name": "path-to-import",
   "version": "1.0.0",
-  "description": "",
+  "description": "Tool for replacing src='path' by import statement for React components.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onlyB/path-to-import.git"
+  },
+  "keywords": [
+    "react",
+    "file-loader",
+    "webpack"
+  ],
   "author": "onlyB",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onlyB/path-to-import/issues"
+  },
+  "homepage": "https://github.com/onlyB/path-to-import#readme",
   "dependencies": {
     "argparse": "^1.0.9"
   }
